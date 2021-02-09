@@ -18,9 +18,9 @@ public class RentalCalculator {
             throw new IllegalStateException("No rentals !!!");
         }
 
-        StringBuilder result = new StringBuilder();
+        var result = new StringBuilder();
 
-        for (Rental rental : rentals) {
+        for (var rental : rentals) {
             if (!calculated)
                 this.amount += rental.getAmount();
 
