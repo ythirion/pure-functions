@@ -13,7 +13,21 @@ public class RentalCalculator {
         this.rentals = rentals;
     }
 
-    public String calculateRental() {
+    public double calculateRental() {
+        if (rentals.isEmpty()) {
+            throw new IllegalStateException("No rentals !!!");
+        }
+
+        if (!calculated) {
+            for (var rental : rentals) {
+                this.amount += rental.getAmount();
+            }
+            calculated = true;
+        }
+        return amount;
+    }
+
+    public String formatStatement() {
         if (rentals.isEmpty()) {
             throw new IllegalStateException("No rentals !!!");
         }
@@ -26,8 +40,9 @@ public class RentalCalculator {
 
             result.append(formatLine(rental, amount));
         }
-        result.append(String.format("Total amount | %f", this.amount));
         calculated = true;
+
+        result.append(String.format("Total amount | %f", this.amount));
 
         return result.toString();
     }
