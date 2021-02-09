@@ -14,9 +14,7 @@ public class RentalCalculator {
     }
 
     public double calculateRental() {
-        if (rentals.isEmpty()) {
-            throw new IllegalStateException("No rentals !!!");
-        }
+        checkRentals();
 
         if (!calculated) {
             for (var rental : rentals) {
@@ -28,9 +26,7 @@ public class RentalCalculator {
     }
 
     public String formatStatement() {
-        if (rentals.isEmpty()) {
-            throw new IllegalStateException("No rentals !!!");
-        }
+        checkRentals();
 
         var result = new StringBuilder();
 
@@ -52,5 +48,11 @@ public class RentalCalculator {
                 rental.getDate(),
                 rental.getLabel(),
                 rental.getAmount());
+    }
+
+    private void checkRentals() {
+        if (rentals.isEmpty()) {
+            throw new IllegalStateException("No rentals !!!");
+        }
     }
 }
