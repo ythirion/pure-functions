@@ -1,28 +1,22 @@
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RentalCalculator {
     public static double calculateRentalAmount(List<Rental> rentals) {
         checkRentals(rentals);
 
-        double amount = 0;
-
-        for (var rental : rentals) {
-            amount += rental.getAmount();
-        }
-        return amount;
+        return rentals.stream()
+                .mapToDouble(Rental::getAmount)
+                .sum();
     }
 
     public static String formatStatement(List<Rental> rentals) {
         checkRentals(rentals);
 
-        var result = new StringBuilder();
-
-        for (var rental : rentals) {
-            result.append(formatLine(rental));
-        }
-        result.append(String.format("Total amount | %f", calculateRentalAmount(rentals)));
-
-        return result.toString();
+        return rentals.stream()
+                .map(RentalCalculator::formatLine)
+                .collect(Collectors.joining())
+                .concat(String.format("Total amount | %f", calculateRentalAmount(rentals)));
     }
 
     private static String formatLine(Rental rental) {
