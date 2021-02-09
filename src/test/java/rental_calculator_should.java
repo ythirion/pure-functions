@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class rental_calculator_should {
     private final List<Rental> rentals = List.of(
@@ -27,16 +28,15 @@ public class rental_calculator_should {
     @Test
     public void throws_an_illegal_state_exception_when_no_rentals() {
         var calculator = new RentalCalculator(Collections.emptyList());
-        assertThrows(IllegalStateException.class, calculator::calculateRental);
+        assertThrows(IllegalStateException.class, calculator::calculateRentalAmount);
     }
 
     @Test
     public void calculate_rentals() {
         var calculator = new RentalCalculator(rentals);
-        calculator.calculateRental();
+        var amount = calculator.calculateRentalAmount();
 
-        assertTrue(calculator.isCalculated());
-        assertEquals(3037.24, calculator.getAmount(), 0.01);
+        assertEquals(3037.24, amount, 0.01);
     }
 
     @Test

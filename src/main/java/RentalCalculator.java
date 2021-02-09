@@ -4,23 +4,18 @@ import java.util.List;
 
 @Getter
 public class RentalCalculator {
-    private double amount;
-    private boolean calculated;
-
     private final List<Rental> rentals;
 
     public RentalCalculator(List<Rental> rentals) {
         this.rentals = rentals;
     }
 
-    public double calculateRental() {
+    public double calculateRentalAmount() {
         checkRentals();
+        double amount = 0;
 
-        if (!calculated) {
-            for (var rental : rentals) {
-                this.amount += rental.getAmount();
-            }
-            calculated = true;
+        for (var rental : rentals) {
+            amount += rental.getAmount();
         }
         return amount;
     }
@@ -31,14 +26,9 @@ public class RentalCalculator {
         var result = new StringBuilder();
 
         for (var rental : rentals) {
-            if (!calculated)
-                this.amount += rental.getAmount();
-
             result.append(formatLine(rental));
         }
-        calculated = true;
-
-        result.append(String.format("Total amount | %f", this.amount));
+        result.append(String.format("Total amount | %f", this.calculateRentalAmount()));
 
         return result.toString();
     }
