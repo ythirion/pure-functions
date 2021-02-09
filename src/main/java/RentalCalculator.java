@@ -1,17 +1,9 @@
-import lombok.Getter;
-
 import java.util.List;
 
-@Getter
 public class RentalCalculator {
-    private final List<Rental> rentals;
+    public static double calculateRentalAmount(List<Rental> rentals) {
+        checkRentals(rentals);
 
-    public RentalCalculator(List<Rental> rentals) {
-        this.rentals = rentals;
-    }
-
-    public double calculateRentalAmount() {
-        checkRentals(this.rentals);
         double amount = 0;
 
         for (var rental : rentals) {
@@ -20,15 +12,15 @@ public class RentalCalculator {
         return amount;
     }
 
-    public String formatStatement() {
-        checkRentals(this.rentals);
+    public static String formatStatement(List<Rental> rentals) {
+        checkRentals(rentals);
 
         var result = new StringBuilder();
 
         for (var rental : rentals) {
             result.append(formatLine(rental));
         }
-        result.append(String.format("Total amount | %f", this.calculateRentalAmount()));
+        result.append(String.format("Total amount | %f", calculateRentalAmount(rentals)));
 
         return result.toString();
     }

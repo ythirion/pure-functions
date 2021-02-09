@@ -27,22 +27,18 @@ public class rental_calculator_should {
 
     @Test
     public void throws_an_illegal_state_exception_when_no_rentals() {
-        var calculator = new RentalCalculator(Collections.emptyList());
-        assertThrows(IllegalStateException.class, calculator::calculateRentalAmount);
+        assertThrows(IllegalStateException.class, () -> RentalCalculator.calculateRentalAmount(Collections.emptyList()));
     }
 
     @Test
     public void calculate_rentals() {
-        var calculator = new RentalCalculator(rentals);
-        var amount = calculator.calculateRentalAmount();
-
+        var amount = RentalCalculator.calculateRentalAmount(rentals);
         assertEquals(3037.24, amount, 0.01);
     }
 
     @Test
     public void format_statement() {
-        var calculator = new RentalCalculator(rentals);
-        var statement = calculator.formatStatement();
+        var statement = RentalCalculator.formatStatement(rentals);
 
         assertEquals("2020-10-09 : Le Refuge des Loups (LA BRESSE) | 1089.900000 \n" +
                 "2020-10-12 : Au pied de la Tour (NOUILLORC) | 1276.450000 \n" +
