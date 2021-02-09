@@ -11,7 +11,7 @@ public class RentalCalculator {
     }
 
     public double calculateRentalAmount() {
-        checkRentals();
+        checkRentals(this.rentals);
         double amount = 0;
 
         for (var rental : rentals) {
@@ -21,7 +21,7 @@ public class RentalCalculator {
     }
 
     public String formatStatement() {
-        checkRentals();
+        checkRentals(this.rentals);
 
         var result = new StringBuilder();
 
@@ -40,7 +40,7 @@ public class RentalCalculator {
                 rental.getAmount());
     }
 
-    private void checkRentals() {
+    private static void checkRentals(List<Rental> rentals) {
         if (rentals.isEmpty()) {
             throw new IllegalStateException("No rentals !!!");
         }
