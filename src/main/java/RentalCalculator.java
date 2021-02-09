@@ -34,7 +34,7 @@ public class RentalCalculator {
             if (!calculated)
                 this.amount += rental.getAmount();
 
-            result.append(formatLine(rental, amount));
+            result.append(formatLine(rental));
         }
         calculated = true;
 
@@ -43,7 +43,7 @@ public class RentalCalculator {
         return result.toString();
     }
 
-    private String formatLine(Rental rental, double amount) {
+    private static String formatLine(Rental rental) {
         return String.format("%tF : %s | %f \n",
                 rental.getDate(),
                 rental.getLabel(),
