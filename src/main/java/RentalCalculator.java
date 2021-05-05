@@ -1,32 +1,25 @@
-import java.util.List;
-import java.util.stream.Collectors;
+import io.vavr.Function1;
+import io.vavr.collection.Seq;
 
 public class RentalCalculator {
-    public static double calculateRentalAmount(List<Rental> rentals) {
-        checkRentals(rentals);
 
-        return rentals.stream()
-                .mapToDouble(Rental::getAmount)
-                .sum();
-    }
+    public static Function1<Seq<Rental>, String> formatStatement =
+            (rentals) -> rentals.foldLeft("", (statement, rental) -> statement + RentalCalculator.formatLine.apply(rental))
+                    .concat(String.format("Total amount | %f", RentalCalculator.calculateRentalAmount.apply(rentals)));
 
-    public static String formatStatement(List<Rental> rentals) {
-        checkRentals(rentals);
+    public static Function1<Seq<Rental>, Double> calculateRentalAmount =
+            (rentals) -> {
+                checkRentals(rentals);
+                return rentals.map(Rental::getAmount).sum().doubleValue();
+            };
 
-        return rentals.stream()
-                .map(RentalCalculator::formatLine)
-                .collect(Collectors.joining())
-                .concat(String.format("Total amount | %f", calculateRentalAmount(rentals)));
-    }
+    private static Function1<Rental, String> formatLine = rental ->
+            String.format("%tF : %s | %f %n",
+                    rental.getDate(),
+                    rental.getLabel(),
+                    rental.getAmount());
 
-    private static String formatLine(Rental rental) {
-        return String.format("%tF : %s | %f %n",
-                rental.getDate(),
-                rental.getLabel(),
-                rental.getAmount());
-    }
-
-    private static void checkRentals(List<Rental> rentals) {
+    private static void checkRentals(Seq<Rental> rentals) {
         if (rentals.isEmpty()) {
             throw new IllegalStateException("No rentals !!!");
         }

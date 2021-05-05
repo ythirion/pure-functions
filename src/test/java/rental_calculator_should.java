@@ -1,14 +1,14 @@
+import io.vavr.collection.Seq;
+import io.vavr.collection.Vector;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class rental_calculator_should {
-    private final List<Rental> rentals = List.of(
+    private final Seq<Rental> rentals = Vector.of(
             Rental.builder()
                     .amount(1089.90)
                     .date(LocalDate.of(2020, 10, 9))
@@ -27,18 +27,18 @@ public class rental_calculator_should {
 
     @Test
     public void throws_an_illegal_state_exception_when_no_rentals() {
-        assertThrows(IllegalStateException.class, () -> RentalCalculator.calculateRentalAmount(Collections.emptyList()));
+        assertThrows(IllegalStateException.class, () -> RentalCalculator.calculateRentalAmount.apply(Vector.empty()));
     }
 
     @Test
     public void calculate_rentals() {
-        var amount = RentalCalculator.calculateRentalAmount(rentals);
+        var amount = RentalCalculator.calculateRentalAmount.apply(rentals);
         assertEquals(3037.24, amount, 0.01);
     }
 
     @Test
     public void format_statement() {
-        var statement = RentalCalculator.formatStatement(rentals);
+        var statement = RentalCalculator.formatStatement.apply(rentals);
 
         assertEquals("2020-10-09 : Le Refuge des Loups (LA BRESSE) | 1089.900000 \n" +
                 "2020-10-12 : Au pied de la Tour (NOUILLORC) | 1276.450000 \n" +
