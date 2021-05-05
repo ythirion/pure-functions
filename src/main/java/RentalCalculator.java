@@ -20,7 +20,7 @@ public class RentalCalculator {
     }
 
     private static String formatLine(Rental rental) {
-        return String.format("%tF : %s | %f \n",
+        return String.format("%tF : %s | %f %n",
                 rental.getDate(),
                 rental.getLabel(),
                 rental.getAmount());
