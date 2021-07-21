@@ -8,8 +8,12 @@ class RentalCalculator(val rentals: List[Rental]) {
 
   def calculated = _calculated
 
-  def calculateRental: Double = {
+  private def checkRentals = {
     if (rentals.isEmpty) throw new IllegalStateException("No rentals !!!")
+  }
+
+  def calculateRental: Double = {
+    checkRentals
 
     if (!_calculated) {
       for (rental <- rentals) {
@@ -21,7 +25,7 @@ class RentalCalculator(val rentals: List[Rental]) {
   }
 
   def formatStatement: String = {
-    if (rentals.isEmpty) throw new IllegalStateException("No rentals !!!")
+    checkRentals
     val result = new StringBuilder
 
     for (rental <- rentals) {
