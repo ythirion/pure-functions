@@ -3,23 +3,17 @@ package com.ythirion
 object RentalCalculator {
   def calculateRental(rentals: List[Rental]): Double = {
     checkRentals(rentals)
-    var amount = 0d
 
-    for (rental <- rentals) {
-      amount += rental.amount
-    }
-    amount
+    rentals
+      .map(r => r.amount)
+      .sum
   }
 
   def formatStatement(rentals: List[Rental]): String = {
     checkRentals(rentals)
-    val result = new StringBuilder
 
-    for (rental <- rentals) {
-      result.append(formatLine(rental))
-    }
-    result.append(f"Total amount | ${calculateRental(rentals)}%.2f")
-    result.toString
+    rentals.foldLeft("")((statement, rental) => statement + formatLine(rental))
+      .concat(formatTotal(rentals))
   }
 
   private def checkRentals(rentals: List[Rental]) = {
@@ -28,4 +22,7 @@ object RentalCalculator {
 
   private def formatLine(rental: Rental) =
     f"${rental.date} : ${rental.label} | ${rental.amount}%.2f\n"
+
+  private def formatTotal(rentals: List[Rental]) =
+    f"Total amount | ${calculateRental(rentals)}%.2f"
 }
