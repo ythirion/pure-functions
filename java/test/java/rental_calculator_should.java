@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class rental_calculator_should {
+class rental_calculator_should {
     private final List<Rental> rentals = List.of(
             Rental.builder()
                     .amount(1089.90)
@@ -26,18 +26,20 @@ public class rental_calculator_should {
                     .build());
 
     @Test
-    public void throws_an_illegal_state_exception_when_no_rentals() {
-        assertThrows(IllegalStateException.class, () -> RentalCalculator.calculateRentalAmount(Collections.emptyList()));
+    void throws_an_illegal_state_exception_when_no_rentals() {
+        List<Rental> emptyList = Collections.emptyList();
+
+        assertThrows(IllegalStateException.class, () -> RentalCalculator.calculateRentalAmount(emptyList));
     }
 
     @Test
-    public void calculate_rentals() {
+    void calculate_rentals() {
         var amount = RentalCalculator.calculateRentalAmount(rentals);
         assertEquals(3037.24, amount, 0.01);
     }
 
     @Test
-    public void format_statement() {
+    void format_statement() {
         var statement = RentalCalculator.formatStatement(rentals);
 
         assertEquals("2020-10-09 : Le Refuge des Loups (LA BRESSE) | 1089.900000 \n" +
