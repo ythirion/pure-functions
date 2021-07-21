@@ -1,40 +1,31 @@
 package com.ythirion
 
-class RentalCalculator(val rentals: List[Rental]) {
-  private var _amount = .0
-  private var _calculated = false
+object RentalCalculator {
+  def calculateRental(rentals: List[Rental]): Double = {
+    checkRentals(rentals)
+    var amount = 0d
 
-  def amount = _amount
-
-  def calculated = _calculated
-
-  private def checkRentals = {
-    if (rentals.isEmpty) throw new IllegalStateException("No rentals !!!")
-  }
-
-  def calculateRental: Double = {
-    checkRentals
-
-    if (!_calculated) {
-      for (rental <- rentals) {
-        this._amount += rental.amount
-      }
-      _calculated = true
+    for (rental <- rentals) {
+      amount += rental.amount
     }
-    _amount
+    amount
   }
 
-  def formatStatement: String = {
-    checkRentals
+  def formatStatement(rentals: List[Rental]): String = {
+    checkRentals(rentals)
     val result = new StringBuilder
 
     for (rental <- rentals) {
-      result.append(formatLine(rental, _amount))
+      result.append(formatLine(rental))
     }
-    result.append(f"Total amount | ${calculateRental}%.2f")
+    result.append(f"Total amount | ${calculateRental(rentals)}%.2f")
     result.toString
   }
 
-  private def formatLine(rental: Rental, amount: Double) =
+  private def checkRentals(rentals: List[Rental]) = {
+    if (rentals.isEmpty) throw new IllegalStateException("No rentals !!!")
+  }
+
+  private def formatLine(rental: Rental) =
     f"${rental.date} : ${rental.label} | ${rental.amount}%.2f\n"
 }

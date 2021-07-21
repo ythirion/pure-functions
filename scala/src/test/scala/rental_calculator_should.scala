@@ -10,18 +10,15 @@ class rental_calculator_should extends AnyFlatSpec {
     new Rental(LocalDate.of(2020, 10, 12), "Au pied de la Tour (NOUILLORC)", 1276.45),
     new Rental(LocalDate.of(2020, 10, 24), "Le moulin du bonheur (GLANDAGE)", 670.89),
   )
-  val rentalCalculator = new RentalCalculator(rentals)
 
   "Calculate rentals on a list" should "return the total amount" in {
-    rentalCalculator.calculateRental
-    assert(rentalCalculator.calculated)
-    assert(3037.24 == BigDecimal(rentalCalculator.amount).setScale(2, BigDecimal.RoundingMode.HALF_UP))
+    val result = RentalCalculator.calculateRental(rentals)
+    assert(3037.24 == BigDecimal(result).setScale(2, BigDecimal.RoundingMode.HALF_UP))
   }
 
   "Format statement on a list" should "produce a formatted statement" in {
-    val statement = rentalCalculator.formatStatement
+    val statement = RentalCalculator.formatStatement(rentals)
 
-    assert(rentalCalculator.calculated)
     assert(statement ==
       """2020-10-09 : Le Refuge des Loups (LA BRESSE) | 1089.90
 2020-10-12 : Au pied de la Tour (NOUILLORC) | 1276.45
@@ -29,9 +26,15 @@ class rental_calculator_should extends AnyFlatSpec {
 Total amount | 3037.24""")
   }
 
-  it should "produce IllegalStateException when rentals is empty" in {
+  it should "produce IllegalStateException when rentals is empty on calculation" in {
     assertThrows[IllegalStateException] {
-      new RentalCalculator(Nil).calculateRental
+      RentalCalculator.calculateRental(Nil)
+    }
+  }
+
+  it should "produce IllegalStateException when rentals is empty on statement formatting" in {
+    assertThrows[IllegalStateException] {
+      RentalCalculator.formatStatement(Nil)
     }
   }
 }
