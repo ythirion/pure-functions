@@ -27,9 +27,9 @@ class rental_calculator_should extends AnyFlatSpec {
     assert(statement.isSuccess)
     assert(statement.get ==
       """2020-10-09 : Le Refuge des Loups (LA BRESSE) | 1089.90
-2020-10-12 : Au pied de la Tour (NOUILLORC) | 1276.45
-2020-10-24 : Le moulin du bonheur (GLANDAGE) | 670.89
-Total amount | 3037.24""")
+        |2020-10-12 : Au pied de la Tour (NOUILLORC) | 1276.45
+        |2020-10-24 : Le moulin du bonheur (GLANDAGE) | 670.89
+        |Total amount | 3037.24""".stripMargin)
   }
 
   it should "produce IllegalStateException when rentals is empty on calculation" in {
