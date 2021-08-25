@@ -1,12 +1,13 @@
 package com.ythirion
 
+import java.lang.System.lineSeparator
+
 class RentalCalculator(val rentals: List[Rental]) {
   private var _amount = .0
   private var _calculated = false
 
-  def amount = _amount
-
-  def calculated = _calculated
+  def amount: Double = _amount
+  def calculated: Boolean = _calculated
 
   def calculateRental: String = {
     if (rentals.isEmpty) throw new IllegalStateException("No rentals !!!")
@@ -23,5 +24,5 @@ class RentalCalculator(val rentals: List[Rental]) {
   }
 
   private def formatLine(rental: Rental, amount: Double) =
-    f"${rental.date} : ${rental.label} | ${rental.amount}%.2f\n"
+    f"${rental.date} : ${rental.label} | ${rental.amount}%.2f${lineSeparator()}"
 }
